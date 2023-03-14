@@ -12,9 +12,26 @@
 }
 
 .confirmation-header {
-  color: #33e5bc
+  color: #33e5bc;
 }
 
 .confirmation-item {
   margin-bottom: 30px;
+}
+
+.info {
+  font-weight: bolder;
+}
+
+.btn {
+  background-color: #0d78f1;
+  font-size: 1.3em;
+  color: #fff;
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 5px;
+}
+
+.btn:hover {
+  box-shadow: 3px 3px 3px #0d78f1;
 }

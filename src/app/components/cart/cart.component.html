@@ -1,0 +1,105 @@
+<div
+  *ngIf="
+    (products.length === 1 && products[0].id === 0) || products[0] === undefined
+  "
+>
+  <p class="message">Please go purchase some products first!</p>
+</div>
+<div *ngIf="name === ''" class="cart-container">
+  <div>
+    <div class="imgNproduct" *ngFor="let product of products">
+      <div><img src="{{ product.url }}" alt="" /></div>
+      <div>
+        <h3>{{ product.name }}</h3>
+        <p *ngIf="product.id !== 0">${{ product.price }}</p>
+        <form *ngIf="product.id !== 0">
+          <label>Amount </label>
+          <input
+            class="item-number"
+            type="number"
+            value="{{ product.amount }}"
+          />
+        </form>
+      </div>
+    </div>
+    <p class="total" *ngIf="getTotal() > 0">Total: ${{ getTotal() }}</p>
+  </div>
+
+  <div class="form" *ngIf="getTotal() > 0">
+    <form #form="ngForm" (ngSubmit)="addForm()">
+      <label>Full name</label>
+      <br />
+      <input
+        type="text"
+        name="fullname"
+        required
+        minlength="3"
+        placeholder="(minimum 3 characters)"
+        [(ngModel)]="user.fullname"
+        #username="ngModel"
+      />
+      <br />
+      <label>Address</label>
+      <br />
+      <input
+        type="text"
+        name="address"
+        required
+        minlength="6"
+        placeholder="(minimum 6 characters)"
+        [(ngModel)]="user.address"
+        #useraddress="ngModel"
+      />
+      <br />
+      <label>Credit card number</label>
+      <br />
+      <input
+        type="string"
+        name="cardnumber"
+        required
+        maxlength="16"
+        minlength="16"
+        pattern="^[0-9]{16,}$"
+        placeholder="(16-digit number)"
+        #usercard="ngModel"
+        ngModel
+      />
+      <br />
+      <br />
+      <p>We'll never share your payment details with anyone else</p>
+      <button class="btn" type="submit" [disabled]="form.invalid">
+        Submit
+      </button>
+    </form>
+    <div *ngIf="username.invalid && username.dirty" style="color: red">
+      <div *ngIf="username.errors?.required">Please enter your full name</div>
+      <div *ngIf="username.errors?.minlength">
+        Full name must be at least 3 characters
+      </div>
+    </div>
+    <div *ngIf="useraddress.invalid && useraddress.dirty" style="color: red">
+      <div *ngIf="useraddress.errors?.required">Please enter your address</div>
+      <div *ngIf="useraddress.errors?.minlength">
+        address must be at least 6 characters
+      </div>
+    </div>
+    <div
+      *ngIf="usercard.invalid && (usercard.dirty || usercard.touched)"
+      style="color: red"
+    >
+      <div *ngIf="usercard.errors?.required">
+        Please enter your credit card number
+      </div>
+      <div
+        *ngIf="
+          usercard.errors?.minlength && (usercard.dirty || usercard.touched)
+        "
+      >
+        credit card must be a number with exactly 16 digits
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="name !== ''">
+  <app-confirmation></app-confirmation>
+</div>
