@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'Product_detail', component: ProductItemDetailComponent },
   { path: 'cart', component: CartComponent },
   { path: 'confirmation', component: ConfirmationComponent },
+  { path: '**', redirectTo: '/' },
 ];
 
 @NgModule({

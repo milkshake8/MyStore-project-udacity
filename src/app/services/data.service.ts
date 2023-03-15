@@ -1,21 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Product } from '../models/product';
-import Products from '../../assets/data.json';
+import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DataService {
-  ProductList: Product[];
+  ProductList: Product[] = [];
+  constructor(private httpClient: HttpClient) {}
 
-  constructor() {
-    this.ProductList = Products;
-  }
-
-  getProducts(): Product[] {
-    return this.ProductList;
-  }
-  getProductDetail(id: number): Product {
-    return this.ProductList[id];
+  getProducts(): Observable<Product[]> {
+    return this.httpClient.get<Product[]>('../assets/data.json');
   }
 }

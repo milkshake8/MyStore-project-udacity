@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { OrderDetails } from 'src/app/models/orderDetails';
-import { OrderService } from 'src/app/services/order.service';
 import { CartingService } from 'src/app/services/carting.service';
 
 @Component({
@@ -9,21 +7,12 @@ import { CartingService } from 'src/app/services/carting.service';
   styleUrls: ['./confirmation.component.css'],
 })
 export class ConfirmationComponent implements OnInit {
-  order: OrderDetails;
+  @Input() name: string = '';
+  @Input() total: number = 0;
 
-  constructor(
-    private orderService: OrderService,
-    private cartingService: CartingService
-  ) {
-    this.order = {
-      name: '',
-      total: 0,
-    };
-  }
+  constructor(private cartingService: CartingService) {}
 
-  ngOnInit(): void {
-    this.order = this.orderService.getOrder();
-  }
+  ngOnInit(): void {}
 
   clearCart(): void {
     this.cartingService.clearCart();

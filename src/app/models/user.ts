@@ -1,9 +1,9 @@
 export class User {
   fullname: string;
   address: string;
-  creditCard?: number;
+  creditCard: string;
 
   constructor() {
-    (this.fullname = ''), (this.address = ''), (this.creditCard = 1);
+    (this.fullname = ''), (this.address = ''), (this.creditCard = '');
   }
 }

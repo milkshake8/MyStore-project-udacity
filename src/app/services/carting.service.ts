@@ -10,10 +10,10 @@ export class CartingService {
     {
       id: 0,
       name: '',
-      price: 1,
+      price: 0,
       url: '',
       description: '',
-      amount: 1,
+      amount: 0,
     },
   ];
 
@@ -45,5 +45,8 @@ export class CartingService {
     while (this.products[0] !== undefined) {
       this.products.pop();
     }
+  }
+  removeProduct(product: ProductCart): ProductCart[] {
+    return (this.products = this.products.filter((p) => p.id !== product.id));
   }
 }

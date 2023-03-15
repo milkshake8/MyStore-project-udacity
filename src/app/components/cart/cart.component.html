@@ -1,30 +1,14 @@
-<div
-  *ngIf="
-    (products.length === 1 && products[0].id === 0) || products[0] === undefined
-  "
->
-  <p class="message">Please go purchase some products first!</p>
-</div>
-<div *ngIf="name === ''" class="cart-container">
-  <div>
-    <div class="imgNproduct" *ngFor="let product of products">
-      <div><img src="{{ product.url }}" alt="" /></div>
-      <div>
-        <h3>{{ product.name }}</h3>
-        <p *ngIf="product.id !== 0">${{ product.price }}</p>
-        <form *ngIf="product.id !== 0">
-          <label>Amount </label>
-          <input
-            class="item-number"
-            type="number"
-            value="{{ product.amount }}"
-          />
-        </form>
-      </div>
-    </div>
-    <p class="total" *ngIf="getTotal() > 0">Total: ${{ getTotal() }}</p>
+<!--Rending the carting page-->
+<div class="cart-container" *ngIf="total === 0">
+  <div class="cart-item">
+    <app-cart-item
+      *ngFor="let product of products"
+      [product]="product"
+      (removeProduct)="removeItem(product)"
+    ></app-cart-item>
   </div>
 
+  <!--Rending the submit form only if there is a product in the cart(getTotal() > 0)-->
   <div class="form" *ngIf="getTotal() > 0">
     <form #form="ngForm" (ngSubmit)="addForm()">
       <label>Full name</label>
@@ -35,8 +19,9 @@
         required
         minlength="3"
         placeholder="(minimum 3 characters)"
-        [(ngModel)]="user.fullname"
+        [(ngModel)]="name"
         #username="ngModel"
+        (ngModelChange)="changeUsername(name)"
       />
       <br />
       <label>Address</label>
@@ -47,8 +32,9 @@
         required
         minlength="6"
         placeholder="(minimum 6 characters)"
-        [(ngModel)]="user.address"
+        [(ngModel)]="address"
         #useraddress="ngModel"
+        (ngModelChange)="changeAddress(address)"
       />
       <br />
       <label>Credit card number</label>
@@ -62,7 +48,8 @@
         pattern="^[0-9]{16,}$"
         placeholder="(16-digit number)"
         #usercard="ngModel"
-        ngModel
+        [(ngModel)]="creditCard"
+        (ngModelChange)="changeCreditCard(creditCard)"
       />
       <br />
       <br />
@@ -100,6 +87,14 @@
     </div>
   </div>
 </div>
-<div *ngIf="name !== ''">
-  <app-confirmation></app-confirmation>
+<p class="total" *ngIf="getTotal() > 0 && products.length > 0">
+  Total: ${{ getTotal() }}
+</p>
+<!--Render the confirmation page after submitting the form-->
+<div *ngIf="name !== '' && total !== 0">
+  <app-confirmation [name]="name" [total]="total"></app-confirmation>
 </div>
+<!--Message to print if there is no product in the cart-->
+<p class="message" *ngIf="getTotal() === 0 && name === ''">
+  Please go purchase some products first!
+</p>

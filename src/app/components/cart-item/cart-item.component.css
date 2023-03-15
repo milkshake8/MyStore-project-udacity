@@ -1,0 +1,33 @@
+img {
+  width: 100px;
+  border-radius: 10px;
+}
+
+.imgNproduct {
+  display: flex;
+  justify-content: center;
+}
+
+.img {
+  padding-right: 50px;
+  padding-top: 20px;
+}
+
+.btn {
+  background-color: #0d78f1;
+  font-size: 1.3em;
+  color: #fff;
+  border: 1px solid;
+  border-radius: 6px;
+  padding: 5px;
+  pointer-events: painted;
+}
+
+.btn:hover {
+  box-shadow: 3px 3px 3px #0d78f1;
+}
+
+input {
+  width: 50px;
+  height: 20px;
+}

@@ -1,0 +1,25 @@
+<div class="imgNproduct">
+  <div class="img"><img src="{{ product.url }}" alt="" /></div>
+  <div>
+    <h3>{{ product.name }}</h3>
+    <p *ngIf="product.id !== 0">${{ product.price }}</p>
+    <form *ngIf="product.id !== 0">
+      <label>Amount </label>
+      <input
+        class="item-number"
+        name="item-number"
+        type="number"
+        min="1"
+        value="{{ product.amount }}"
+        [(ngModel)]="amount"
+        #productAmount="ngModel"
+        (ngModelChange)="changeAmount()"
+      />
+      <br />
+      <br />
+      <button class="btn" type="submit" (click)="remove(product)">
+        Remove
+      </button>
+    </form>
+  </div>
+</div>

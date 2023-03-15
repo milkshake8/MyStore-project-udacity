@@ -1,9 +1,7 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { ProductCart } from 'src/app/models/productCart';
 import { User } from 'src/app/models/user';
 import { CartingService } from 'src/app/services/carting.service';
-import { OrderService } from 'src/app/services/order.service';
-import { OrderDetails } from 'src/app/models/orderDetails';
 
 @Component({
   selector: 'app-cart',
@@ -12,40 +10,58 @@ import { OrderDetails } from 'src/app/models/orderDetails';
 })
 export class CartComponent {
   products: ProductCart[] = [];
-  amount: number = 1;
+  amount: number = 0;
   user: User;
   total: number = 0;
   name: string = '';
+  address: string = '';
+  creditCard: string = '';
 
-  constructor(
-    private cartingService: CartingService,
-    private orderService: OrderService
-  ) {
-    this.products = this.cartingService.getProducts();
+  constructor(private cartingService: CartingService) {
     this.user = {
       fullname: '',
       address: '',
-      creditCard: undefined,
+      creditCard: '',
     };
   }
 
-  ngOnInit() {}
+  ngOnInit(): void {
+    this.products = this.cartingService.getProducts();
+  }
 
   getTotal(): number {
     let total = 0;
     for (let p of this.products) {
       total += p.amount * p.price;
     }
-    return total - 1;
+    return total;
   }
 
-  addForm() {
+  removeItem(product: ProductCart): void {
+    this.products = this.cartingService.removeProduct(product);
+  }
+
+  addForm(): void {
     this.total = this.getTotal();
-    this.name = this.user.fullname;
-    const od: OrderDetails = {
-      name: this.name,
-      total: this.total,
-    };
-    this.orderService.addOrder(od);
+    this.cartingService.clearCart();
+  }
+
+  changeAmount(p: ProductCart): void {
+    for (let product of this.products) {
+      if (product.id === p.id) {
+        product.amount = p.amount;
+      }
+    }
+  }
+  changeUsername(name: string): void {
+    this.user.fullname = name;
+  }
+
+  changeAddress(address: string): void {
+    this.user.address = address;
+  }
+
+  changeCreditCard(card: string): void {
+    this.user.creditCard = card;
   }
 }
